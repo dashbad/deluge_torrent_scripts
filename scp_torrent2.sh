@@ -1,41 +1,37 @@
 #!/bin/bash
 exec 1> >(logger -s -t $(basename $0)) 2>&1
 
+movie_watch="/mnt/media/movie_watch/"
+scratch="/mnt/media/scratch/"
+audio_sync="/mnt/seedbox_downloads/audio_sync/"
+
+
 echo "Script called for torrent:$id with name:$name and path:$path"
 
 label=$(python /mnt/media/scripts/getlabel.py $id)
 full_path="$path/$name"
 
+while ! mkdir ~/myscript.lock 2>/dev/null
+        do
+        sleep 60
+        done
+
 if [[ $label == "film" ]]
 then
-        while ! mkdir ~/myscript.lock 2>/dev/null
-        do
-        sleep 60
-        done
-                cp -R "$full_path" /mnt/media/movie_watch/
+                cp -R "$full_path" "$movie_watch"
                 /mnt/media/processing_scripts/movie_sort.sh
-                rm -rf ~/myscript.lock
 elif [[ $label == "kids_film" ]]
 then
-        while ! mkdir ~/myscript.lock 2>/dev/null
-        do
-        sleep 60
-        done
-                cp -R "$full_path" /mnt/media/movie_watch/
+                cp -R "$full_path" "$movie_watch"
                 /mnt/media/processing_scripts/movie_sort_kids.sh
-                rm -rf ~/myscript.lock
 elif [[ $label == "scratch" ]]
 then
-        while ! mkdir ~/myscript.lock 2>/dev/null
-        do
-        sleep 60
-        done
-                cp -R "$full_path" /mnt/media/scratch/
-                rm -rf  ~/myscript.lock
+                cp -R "$full_path" "$scratch"
 elif [[ $label == "audio" ]]
 then
-        cp -R  "$full_path" /mnt/seedbox_downloads/audio_sync/
+        cp -R  "$full_path" "$audio_sync"
 
 else
 :
 fi
+rm -rf  ~/myscript.lock
