@@ -18,26 +18,32 @@ while ! mkdir ~/myscript.lock 2>/dev/null
 
 if [[ $label == "film" ]]
 then
+		echo "processing film"
                 cp -R "$full_path" "$movie_watch"
                 /mnt/media/processing_scripts/movie_sort.sh
 elif [[ $label == "kids_film" ]]
 then
+		echo "processing kid's film"
                 cp -R "$full_path" "$movie_watch"
                 /mnt/media/processing_scripts/movie_sort_kids.sh
 elif [[ $label == "scratch" ]]
 then
+		echo "processing scratch"
                 cp -R "$full_path" "$scratch"
 elif [[ $label == "audio" ]]
 then
-        cp -R  "$full_path" "$audio_sync"
-	/home/dash/Documents/other_scripts/flac2alac.sh
+		echo "processing audio"
+        	cp -R  "$full_path" "$audio_sync"
+		/home/dash/Documents/other_scripts/flac2alac.sh
 
 elif [[ $label == "other" ]]
 then
-        cp -R  "$full_path" "$other"
+		echo "processing other"
+        	cp -R  "$full_path" "$other"
 
 else
 :
 fi
 rm -rf  ~/myscript.lock
-
+echo "cleanup complete"
+exit
